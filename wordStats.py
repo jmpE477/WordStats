@@ -80,10 +80,12 @@ def frequencyAnalysis(filename):
     # hence one "#" represents maxValue/25 occurences. We’ll get the length we need by dividing
     # the current number of occurrences by that value.
     
-    for b in range(0,round(currentValue / (maxValue/25))):    
-      bar = bar + "#"                     # Fill the variable bar with the appropriate number of "#"s.
-    if (bar=="" and (currentValue > 0 )): # If the number of occurrences is smaller than one "#",
-      bar = "#"                           # we still want to show it in the graph.
+    if (maxValue > 0):  # Do we even have any occurrences here? If not, we shouldn't do anything here,
+                        # because we don't want to divide by zero in the very next line.
+      for b in range(0,round(currentValue / (maxValue/25))):    
+        bar = bar + "#"                     # Fill the variable bar with the appropriate number of "#"s.
+      if (bar=="" and (currentValue > 0 )): # If the number of occurrences is smaller than one "#",
+        bar = "#"                           # we still want to show it in the graph.
     return bar
 
   fopen = open(filename, "r")
@@ -99,12 +101,12 @@ def frequencyAnalysis(filename):
   
   fopen.close()
 
-  maxL = max(letterFreq[65:91])   # Find the max number of occurrences within the lowercase letters.
-  maxU = max(letterFreq[97:123])  # Find the max number of occurrences within the uppercase letters.
+  maxU = max(letterFreq[65:91])   # Find the max number of occurrences within the lowercase letters.
+  maxL = max(letterFreq[97:123])  # Find the max number of occurrences within the uppercase letters.
 
   for a in range(65,91):
-    output = output + "\n" + chr(a) + ": " + "{:<6d}".format(letterFreq[a]) + " " + "{:<25}".format(drawBar((letterFreq[a]),maxL))
-    output = output + "  " + chr(a+32) + ": " + "{:<6d}".format(letterFreq[a+32]) + " " + "{:<25}".format(drawBar((letterFreq[a+32]),maxU))
+    output = output + "\n" + chr(a) + ": " + "{:<6d}".format(letterFreq[a]) + " " + "{:<25}".format(drawBar((letterFreq[a]),maxU))
+    output = output + "  " + chr(a+32) + ": " + "{:<6d}".format(letterFreq[a+32]) + " " + "{:<25}".format(drawBar((letterFreq[a+32]),maxL))
 
     # Add to the variable output the following: current character, number of its occurrences
     # and a bar filled with "#" characters. 
